@@ -11,36 +11,40 @@ public class WildcardMatcher {
     } else {
       int len = inputStr.length();
       int patternLen = wildCardPatternStr.length();
+      // converting to charArray gives better performance
       char[] inputCharArray = inputStr.toCharArray();
       char[] patternCharArray = wildCardPatternStr.toCharArray();
       int patternIndex = 0;
       int inputStrIndex = 0;
-      boolean hasAstreikEncountered = false;
+      boolean hasAsteriskEncountered = false;
       char patternElement;
       char inputStrElement;
       while (inputStrIndex < len && patternIndex < patternLen) {
         patternElement = patternCharArray[patternIndex];
         inputStrElement = inputCharArray[inputStrIndex];
         if (patternElement == '?') {
-          hasAstreikEncountered = false;
-          patternIndex = incrementToLimit(patternIndex,patternLen);
+          // advance pattern string element position
+          hasAsteriskEncountered = false;
+          patternIndex = incrementToLimit(patternIndex, patternLen);
         } else if (patternElement == '*') {
-          hasAstreikEncountered = true;
-          patternIndex = incrementToLimit(patternIndex,patternLen);
-        } else if (!hasAstreikEncountered && patternElement != inputStrElement ){
+          //remember that asterisk was encountered so that inputstr position can be advanced until
+          hasAsteriskEncountered = true;
+          // advance pattern string element position
+          patternIndex = incrementToLimit(patternIndex, patternLen);
+        } else if (!hasAsteriskEncountered && patternElement != inputStrElement) {
           hasMatched = false;
           break;
-        }else if (patternElement == inputStrElement) {
-          patternIndex = incrementToLimit(patternIndex,patternLen);
+        } else if (patternElement == inputStrElement) {
+          patternIndex = incrementToLimit(patternIndex, patternLen);
           hasMatched = hasMatched && true;
-          hasAstreikEncountered = false;
-        } else if((inputStrIndex+1 >= len)) {
+          hasAsteriskEncountered = false;
+        } else if ((inputStrIndex + 1 >= len)) {
           hasMatched = false;
           break;
         }
-        inputStrIndex = incrementToLimit(inputStrIndex,len);
+        inputStrIndex = incrementToLimit(inputStrIndex, len);
       }
-      System.out.println("inputStrIndex = " + inputStrIndex + "   patternIndex = " +patternIndex);
+      //System.out.println("inputStrIndex = " + inputStrIndex + "   patternIndex = " + patternIndex);
 
     }
     return hasMatched;
@@ -55,21 +59,19 @@ public class WildcardMatcher {
   }
 
   private static int incrementToLimit(int counter, int limit) {
-    if ((limit - counter) > 0) {
-      return counter+1;
-    }
-    return counter;
+    return ((limit - counter) > 0 ? counter + 1 : counter);
   }
 
   public static void main(String[] atgs) {
     //String str = "abcdefg";
     String str = "ab";
 
-    String[] pattern = {"a?c*M","*bc*g",str,"?bcdefg","ab*","M*?","ab", "*M","a?c?*g","a?c?*M"};
-    String[] pattern1= {"ab"};
-    for(int i=0;i<pattern.length;i++) {
+    String[] pattern = {"a?c*M", "*bc*g", str, "?bcdefg", "ab*", "M*?", "ab", "*M", "a?c?*g",
+        "a?c?*M"};
+    String[] pattern1 = {"ab"};
+    for (int i = 0; i < pattern.length; i++) {
       boolean patternMatch = WildcardMatcher.matches(str, pattern[i]);
-      System.out.println("pattern = " + pattern[i] +" result = " + patternMatch);
+      System.out.println("pattern = " + pattern[i] + " result = " + patternMatch);
 
     }
   }
