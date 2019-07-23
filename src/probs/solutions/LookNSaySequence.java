@@ -7,14 +7,14 @@ public class LookNSaySequence {
     String setSequence = sequence;
     while (row > 0) {
       System.out.println("sequence =  " + setSequence);
-      setSequence = genSeqNextSequence(setSequence);
+      setSequence = genNextSequence(setSequence);
       row--;
     }
 
 
   }
 
-  public static String genSeqNextSequence(String sequence) {
+  public static String genNextSequence(String sequence) {
 
     StringBuilder nextSeq = new StringBuilder();
 
