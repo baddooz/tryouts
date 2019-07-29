@@ -31,21 +31,23 @@ public class WildcardMatcher {
           hasAsteriskEncountered = true;
           // advance pattern string element position
           patternIndex = incrementToLimit(patternIndex, patternLen);
+          // No * is encovuntered but pattern char && inputstr chars do not match
         } else if (!hasAsteriskEncountered && patternElement != inputStrElement) {
           hasMatched = false;
           break;
+          //if characters match
         } else if (patternElement == inputStrElement) {
           patternIndex = incrementToLimit(patternIndex, patternLen);
           hasMatched = hasMatched && true;
+          //reset asterisk flag as characters matched
           hasAsteriskEncountered = false;
+          //if inputstr exhausted and no match found
         } else if ((inputStrIndex + 1 >= len)) {
           hasMatched = false;
           break;
         }
         inputStrIndex = incrementToLimit(inputStrIndex, len);
       }
-      //System.out.println("inputStrIndex = " + inputStrIndex + "   patternIndex = " + patternIndex);
-
     }
     return hasMatched;
   }

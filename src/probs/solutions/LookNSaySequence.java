@@ -42,7 +42,7 @@ public class LookNSaySequence {
 
   public static void main(String[] args) {
 
-    LookNSaySequence.genSeqNthRow("1", 20);
+    LookNSaySequence.genSeqNthRow("1", 7);
 
 
   }
